@@ -141,3 +141,37 @@ class Knight < SteppingPiece
     @deltas = KNIGHT_DELTAS
   end
 end
+
+class Pawn < Piece
+  PAWN_MARK = :P
+
+  attr_reader :deltas
+
+  def initialize(board, pos, color)
+    super(board, pos, color, PAWN_MARK)
+  end
+
+  def moves
+    moves = []
+    x, y = self.position
+
+    if board[[x, y + 1]].is_a?(NullPiece)
+      moves << [x, y + 1]
+      if board[[x, y + 2]].is_a?(NullPiece) && (x == 1 || x == 6)
+        moves << [x, y + 2]
+      end
+    end
+
+    unless board[[x - 1, y + 1]].is_a?(NullPiece)
+      moves << [x - 1, y + 1]
+    end
+
+    unless board[[x + 1, y + 1]].is_a?(NullPiece)
+      moves << [x + 1, y + 1]
+    end
+
+    moves.select { |coords| board.inbounds?(coords) }
+  end
+
+
+end

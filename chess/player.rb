@@ -1,12 +1,13 @@
 require_relative 'display'
 
 class Player
-  attr_accessor :color
+  attr_accessor :color, :board
 
-  def initialize(name, board)
+  def initialize(name)
     @name = name
     @display = Display.new(board)
     @color = nil
+    @board = nil
   end
 
   def get_pos
