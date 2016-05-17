@@ -1,7 +1,4 @@
-require_relative 'board'
-require_relative 'piece'
-require_relative 'display'
-require_relative 'player'
+require_relative 'manifest'
 require 'byebug'
 
 class Chess
@@ -74,6 +71,7 @@ class Chess
   end
 
   def over?
+    false
   end
 
   def checkmate?
@@ -89,7 +87,7 @@ if __FILE__ == $PROGRAM_NAME
   black = Player.new("black")
   game = Chess.new(white, black)
   # display = Display.new(game.board)
-  game.play_turn
+  game.play
   display = Display.new(game.board)
   display.render
 
