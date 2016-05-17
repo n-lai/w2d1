@@ -16,6 +16,11 @@ class Piece
     true
   end
 
+  def move(end_pos)
+    raise unless self.moves.include?(end_pos)
+    board.move(self.position, end_pos)
+  end
+
   def to_s
     #to picture
     mark.to_s
@@ -30,8 +35,8 @@ class SlidingPiece < Piece
     super
   end
 
-  def moves(start)
-    x, y = start
+  def moves
+    x, y = self.position
     deltas.map { |dx, dy| [x + dx, y + dy] }.select do |new_x, new_y|
       x_arr = (x...new_x).to_a.drop(1)
       y_arr = (y...new_y).to_a.drop(1)
@@ -45,8 +50,8 @@ class SlidingPiece < Piece
 end
 
 class SteppingPiece < Piece
-  def moves(start)
-    x, y = start
+  def moves
+    x, y = self.position
     deltas.map { |dx, dy| [x + dx, y + dy] }.select do |space|
       board.in_bounds?(space) && board[space].color != self.color
     end
@@ -155,14 +160,14 @@ class Pawn < Piece
     moves = []
     x, y = self.position
 
-    if board[[x, y + 1]].is_a?(NullPiece)
-      moves << [x, y + 1]
-      if board[[x, y + 2]].is_a?(NullPiece) && (x == 1 || x == 6)
-        moves << [x, y + 2]
+    if board[[x + 1, y]].is_a?(NullPiece)
+      moves << [x + 1, y]
+      if board[[x + 2, y]].is_a?(NullPiece) && (x == 1 || x == 6)
+        moves << [x + 2, y]
       end
     end
 
-    unless board[[x - 1, y + 1]].is_a?(NullPiece)
+    unless board[[x + 1, y - 1]].is_a?(NullPiece)
       moves << [x - 1, y + 1]
     end
 
@@ -170,7 +175,7 @@ class Pawn < Piece
       moves << [x + 1, y + 1]
     end
 
-    moves.select { |coords| board.inbounds?(coords) }
+    moves.select { |coords| board.in_bounds?(coords) }
   end
 
 

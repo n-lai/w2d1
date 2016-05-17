@@ -2,6 +2,7 @@ require_relative 'board'
 require_relative 'piece'
 require_relative 'display'
 require_relative 'player'
+require 'byebug'
 
 class Chess
   attr_accessor :board, :players
@@ -87,9 +88,10 @@ if __FILE__ == $PROGRAM_NAME
   white = Player.new("white")
   black = Player.new("black")
   game = Chess.new(white, black)
+  # display = Display.new(game.board)
+  game.play_turn
   display = Display.new(game.board)
   display.render
-  sleep(3)
-  # game.board.move([0,0], [0,1])
-  # display.render
+
+
 end
