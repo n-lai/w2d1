@@ -7,8 +7,8 @@ class Board
   end
 
   def move(start, end_pos)
-    raise if self[start].is_a?(NullPiece)
-    raise unless self[start].can_move?(end_pos)
+    # raise if self[start].is_a?(NullPiece) -> player.rb
+    # raise unless self[start].can_move?(end_pos)
     self[end_pos] = self[start]
     self[start] = NullPiece.instance
   end

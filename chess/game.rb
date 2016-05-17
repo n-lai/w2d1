@@ -10,11 +10,12 @@ class Chess
     @board = Board.new
   end
 
-  def self.setup_board
+  def self.setup_game
     game = self.new
     game.board[[0, 0]] = Rook.new(game.board, [0, 0], :black)
     game
   end
+  
 end
 
 if __FILE__ == $PROGRAM_NAME

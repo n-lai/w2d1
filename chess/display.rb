@@ -10,7 +10,7 @@ class Display
   def initialize(board = Board.new)
     @board = board
     @cursor_pos = [0, 0]
-    @selected = false
+    # @selected = false
   end
 
   def build_grid
@@ -42,9 +42,4 @@ class Display
     puts "Arrow keys, WASD, or vim to move, space or enter to confirm."
     build_grid.each { |row| puts row.join }
   end
-end
-
-if __FILE__ == $PROGRAM_NAME
-  test = Display.new
-  test.render
 end

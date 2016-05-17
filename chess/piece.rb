@@ -11,11 +11,13 @@ class Piece
     @mark = " #{mark} "
   end
 
-  def can_move?(end_pos)
+  def can_access?(end_pos)
+    #fix this
     true
   end
 
   def to_s
+    #to picture
     mark.to_s
   end
 end
@@ -45,7 +47,7 @@ end
 class SteppingPiece < Piece
   def moves(start)
     x, y = start
-    @deltas.map { |dx, dy| [x + dx, y + dy] }.select do |space|
+    deltas.map { |dx, dy| [x + dx, y + dy] }.select do |space|
       board.in_bounds?(space) && board[space].color != self.color
     end
   end
@@ -70,9 +72,12 @@ class Queen < SlidingPiece
                  NEGATIVE_RANGE.map { |elt| [elt, 0] } +
                  NEGATIVE_RANGE.zip(RANGE)
 
+  QUEEN_MARK = :Q
+
   attr_reader :deltas
 
-  def initialize
+  def initialize(board, pos, color)
+    super(board, pos, color, QUEEN_MARK)
     @deltas = QUEEN_DELTAS
   end
 end
@@ -86,9 +91,11 @@ class Rook < SlidingPiece
 
   ROOK_MARK = :R
 
+  attr_reader :deltas
 
   def initialize(board, pos, color)
     super(board, pos, color, ROOK_MARK)
+    @deltas = ROOK_DELTAS
   end
 
 end
@@ -100,14 +107,37 @@ class Bishop < SlidingPiece
                   NEGATIVE_RANGE.zip(NEGATIVE_RANGE) +
                   NEGATIVE_RANGE.zip(RANGE)
 
+  BISHOP_MARK = :B
 
+  attr_reader :deltas
+
+  def initialize(board, pos, color)
+    super(board, pos, color, BISHOP_MARK)
+    @deltas = BISHOP_DELTAS
+  end
 
 end
 
 class King < SteppingPiece
   KING_DELTAS = [-1, 0, 1].product([-1, 0, 1]) - [[0, 0]]
+  KING_MARK = :K
+
+  attr_reader :deltas
+
+  def initialize(board, pos, color)
+    super(board, pos, color, KING_MARK)
+    @deltas = KING_DELTAS
+  end
 end
 
 class Knight < SteppingPiece
   KNIGHT_DELTAS = [-2, -1, 1, 2].product([-2, -1, 1, 2]).reject { |a, b| a.abs + b.abs != 3 }
+  KNIGHT_MARK = :H
+
+  attr_reader :deltas
+
+  def initialize(board, pos, color)
+    super(board, pos, color, KNIGHT_MARK)
+    @deltas = KNIGHT_DELTAS
+  end
 end
