@@ -35,6 +35,7 @@ class Player
         puts "Can't move that piece."
         sleep(2)
       elsif !board[start_pos].can_access?(end_pos)
+        p board[start_pos].moves
         puts "Invalid end position."
         sleep(2)
       end

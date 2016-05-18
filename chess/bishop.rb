@@ -7,12 +7,11 @@ class Bishop < SlidingPiece
                   NEGATIVE_RANGE.zip(NEGATIVE_RANGE) +
                   NEGATIVE_RANGE.zip(RANGE)
 
-  BISHOP_MARK = :B
-
   attr_reader :deltas
 
   def initialize(board, pos, color)
-    super(board, pos, color, BISHOP_MARK)
+    bishop_mark = (color == :white ? "\u2657" : "\u265D")
+    super(board, pos, color, bishop_mark)
     @deltas = BISHOP_DELTAS
   end
 

@@ -1,12 +1,11 @@
 require_relative 'piece'
 
 class Pawn < Piece
-  PAWN_MARK = :P
-
   attr_reader :deltas
 
   def initialize(board, pos, color)
-    super(board, pos, color, PAWN_MARK)
+    pawn_mark = (color == :white ? "\u2659" : "\u265F")
+    super(board, pos, color, pawn_mark)
   end
 
   def moves

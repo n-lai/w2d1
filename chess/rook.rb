@@ -7,12 +7,11 @@ class Rook < SlidingPiece
                 NEGATIVE_RANGE.map { |elt| [0, elt] } +
                 NEGATIVE_RANGE.map { |elt| [elt, 0] }
 
-  ROOK_MARK = :R
-
   attr_reader :deltas
 
   def initialize(board, pos, color)
-    super(board, pos, color, ROOK_MARK)
+    rook_mark = (color == :white ? "\u2656" : "\u265C")
+    super(board, pos, color, rook_mark)
     @deltas = ROOK_DELTAS
   end
 

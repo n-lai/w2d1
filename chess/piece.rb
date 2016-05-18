@@ -8,16 +8,14 @@ class Piece
     @board = board
     @position = position
     @color = color
-    @mark = " #{mark} "
+    @mark = " #{mark}  "
   end
 
   def can_access?(end_pos)
-    byebug
     self.moves.include?(end_pos)
   end
 
   def move(end_pos)
-    # raise unless self.moves.include?(end_pos)
     board.move(self.position, end_pos)
     self.position = end_pos
   end
@@ -66,8 +64,13 @@ class SlidingPiece < Piece
 
       path = x_arr.product(y_arr)
     elsif (position.first - new_x).abs == (position.last - new_y).abs
-      x_arr = (min_x...max_x).to_a.drop(1)
-      y_arr = (min_y...max_y).to_a.drop(1)
+      if (x == max_x && y == min_y) || (x == min_x && y == max_y)
+        x_arr = (min_x...max_x).to_a.drop(1).reverse
+        y_arr = (min_y...max_y).to_a.drop(1)
+      else
+        x_arr = (min_x...max_x).to_a.drop(1)
+        y_arr = (min_y...max_y).to_a.drop(1)
+      end
 
       path = x_arr.zip(y_arr)
     end
@@ -98,6 +101,6 @@ class NullPiece
   @color = :none
 
   def to_s
-    "   "
+    "    "
   end
 end

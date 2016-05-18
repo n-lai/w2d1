@@ -11,12 +11,11 @@ class Queen < SlidingPiece
                  NEGATIVE_RANGE.map { |elt| [elt, 0] } +
                  NEGATIVE_RANGE.zip(RANGE)
 
-  QUEEN_MARK = :Q
-
   attr_reader :deltas
 
   def initialize(board, pos, color)
-    super(board, pos, color, QUEEN_MARK)
+    queen_mark = (color == :white ? "\u2655" : "\u265B")
+    super(board, pos, color, queen_mark)
     @deltas = QUEEN_DELTAS
   end
 
@@ -24,7 +23,7 @@ class Queen < SlidingPiece
     super.select do |x, y|
       (position.first - x).abs == (position.last - y).abs ||
       position.first == x ||
-      position.last == y 
+      position.last == y
     end
   end
 

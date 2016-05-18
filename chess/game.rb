@@ -53,6 +53,7 @@ class Chess
       play_turn
       switch_players!
     end
+    announce_results
   end
 
   def switch_players!
@@ -68,19 +69,41 @@ class Chess
   end
 
   def announce_results
+    puts "Game ended"
   end
 
   def over?
-    false
+    (check?(:white) && checkmate?(:white)) || (check?(:black) && checkmate?(:black))
   end
 
-  def checkmate?
+  def checkmate?(color)
+    own_pieces = board.rows.flatten.select { |piece| piece.color == color }
+    own_moves = own_pieces.flat_map { |piece| piece.moves.map { |move| [piece.position, move] } }
+    moves_test = own_moves.map do |start_pos, move|
+      dup_game = Chess.new(Player.new("white"), Player.new("black"))
+      dup_game.board = board.deep_dup
+      dup_game.board.move(start_pos, move)
+      return false unless dup_game.check?(color)
+    end
+    true
   end
 
-  def check?
+
+
+  def check?(color)
+
+    king = board.rows.flatten.detect { |piece| piece.is_a?(King) && piece.color == color}
+    king_pos = king.position
+
+    opponent_color = (color == :white ? :black : :white)
+    opponents_pieces = board.rows.flatten.select { |piece| piece.color == opponent_color }
+    opponents_moves = opponents_pieces.flat_map { |piece| piece.moves }
+    opponents_moves.include?(king_pos)
   end
 
 end
+
+
 
 if __FILE__ == $PROGRAM_NAME
   white = Player.new("white")
